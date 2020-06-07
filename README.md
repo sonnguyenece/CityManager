@@ -1,2 +1,2 @@
-# CityManager
-[Thực hành] Ứng dụng Quản lý khách hàng: Quản lý tỉnh
+# CustomerManagerSpringJPAHibernate
+[Thực hành] Ứng dụng quản lý khách hàng
