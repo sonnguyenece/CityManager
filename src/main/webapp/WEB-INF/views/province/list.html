@@ -5,20 +5,24 @@
     <title>Provinces</title>
 </head>
 <body>
-<a href="/create-province">Create new province</a>
-<h1>Provinces</h1>
+<div>
+<span th:text="#{province.language}">Language:</span> <a href="?lang=en">English</a> | <a href="?lang=vi">Vietnamese</a>
+</div>
+<a href="/customers">Customers</a>
+<a href="/create-province" th:text="#{province.list.creatNewProvince}">Create new province</a>
+<h1 th:text="#{province.list.provinceName}"></h1>
 <table border="1">
     <tr>
-        <th>Name</th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <th th:text="#{province.list.table.headerName}"></th>
+        <th th:text="#{province.list.table.headerEdit}"></th>
+        <th th:text="#{province.list.table.headerDelete}"></th>
     </tr>
     <th:block th:each="province : ${provinces}">
         <tr>
             <td><a th:href="@{/view-province/{id}(id=${province.id})}">
                 <span th:text="${province.name}"></span></a></td>
-            <td><a th:href="@{/edit-province/__${province.id}__ }">Edit</a></td>
-            <td><a th:href="@{/delete-province/__${province.id}__ }">Delete</a></td>
+            <td><a th:href="@{/edit-province/__${province.id}__ }" th:text="#{province.list.table.headerEdit}"></a></td>
+            <td><a th:href="@{/delete-province/__${province.id}__ }" th:text="#{province.list.table.headerDelete}"></a></td>
         </tr>
     </th:block>
 </table>

@@ -29,4 +29,6 @@ public class ProvinceServiceImpl implements ProvinceService {
     public void remove(Long id) {
         provinceRepository.delete(id);
     }
+
+
 }

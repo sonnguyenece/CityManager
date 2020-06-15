@@ -14,7 +14,6 @@ public interface CustomerService {
 
     void remove(Long id);
 
-    //phuc vu phan trang
     Iterable<Customer> findAllByProvince(Province province);
 
     //phuc vu tim kiem

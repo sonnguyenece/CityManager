@@ -6,11 +6,11 @@
 </head>
 <body>
 <h1>View province: <span th:text="${province.name}"></span></h1>
-<a href="/provinces">Province list</a>
+<a href="/provinces" th:text="#{province.view.provinceList}"></a>
 <table border="1">
     <tr>
-        <th>First name</th>
-        <th>Last name</th>
+        <th th:text="#{province.view.firstName}"></th>
+        <th th:text="#{province.view.lastName}"></th>
     </tr>
     <th:block th:each="customer : ${customers}">
         <tr>

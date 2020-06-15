@@ -1,6 +1,7 @@
 package com.codegym.cms;
 
-import com.codegym.cms.formatter.ProvinceFormatter.ProvinceFormatter;
+//import com.codegym.cms.formatter.ProvinceFormatter.ProvinceFormatter;
+
 import com.codegym.cms.repository.CustomerRepository;
 import com.codegym.cms.service.CustomerService;
 import com.codegym.cms.service.ProvinceService;
@@ -10,9 +11,11 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -27,9 +30,14 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
@@ -40,6 +48,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 
 
@@ -54,8 +63,9 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
 
     private ApplicationContext applicationContext;
 
-//   cai dat size trong phan trang
+    //   cai dat size trong phan trang
     static final Pageable DEFAULT_PAGE_REQUEST = new PageRequest(0, 10);
+
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         PageableHandlerMethodArgumentResolver resolver = new PageableHandlerMethodArgumentResolver();
@@ -70,10 +80,10 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
     }
 
     //Cai dat formatter
-    @Override
-    public void addFormatters(FormatterRegistry registry) {
-        registry.addFormatter(new ProvinceFormatter(applicationContext.getBean(ProvinceService.class)));
-    }
+//    @Override
+//    public void addFormatters(FormatterRegistry registry) {
+//        registry.addFormatter(new ProvinceFormatter(applicationContext.getBean(ProvinceService.class)));
+//    }
 
     @Bean
     public CustomerService customerService() {
@@ -155,6 +165,31 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         return properties;
+    }
+
+    @Bean
+    public MessageSource messageSource() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename("message");
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+        interceptor.setParamName("lang");
+        registry.addInterceptor(interceptor);
+    }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+//        SessionLocaleResolver localeResolver = new SessionLocaleResolver();
+
+        //        nho cookie
+        CookieLocaleResolver localeResolver = new CookieLocaleResolver();
+        localeResolver.setDefaultLocale(new Locale("vi"));
+        return localeResolver;
     }
 
 }
