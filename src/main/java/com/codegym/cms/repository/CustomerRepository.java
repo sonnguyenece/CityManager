@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 
 public interface CustomerRepository extends PagingAndSortingRepository<Customer, Long>{
     Iterable<Customer> findAllByProvince(Province province);
+//    Iterable<Customer> findAllByFirstName();
 
     Page<Customer> findAllByFirstNameContaining(String firstname, Pageable pageable);
+
 }
