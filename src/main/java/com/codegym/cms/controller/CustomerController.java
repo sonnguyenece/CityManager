@@ -49,22 +49,6 @@ public class CustomerController {
         modelAndView.addObject("message", "New customer created successfully");
         return modelAndView;
     }
-//    @GetMapping("/customers")
-//    public ModelAndView listCustomers(){
-//        Iterable<Customer> customers = customerService.findAll();
-//        ModelAndView modelAndView = new ModelAndView("/customer/list");
-//        modelAndView.addObject("customers", customers);
-//        return modelAndView;
-//    }
-
-//    @GetMapping("/customers")
-//    public ModelAndView listCustomers(Pageable pageable){
-//
-//        Page<Customer> customers = customerService.findAll(pageable);
-//        ModelAndView modelAndView = new ModelAndView("/customer/list");
-//        modelAndView.addObject("customers", customers);
-//        return modelAndView;
-//    }
 
     @GetMapping("/customers")
     public ModelAndView listCustomers(@RequestParam("s") Optional<String> s, Pageable pageable) {
